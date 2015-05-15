@@ -3,13 +3,13 @@ package br.com.bitwaysystem.bean;
 public class Pessoa {
 
 	private int age;
-	private String name;
+	private String nome;
 
 	
 	public Pessoa(int age, String name) {
 		super();
 		this.age = age;
-		this.name = name;
+		this.nome = name;
 	}
 
 	public Pessoa() {
@@ -25,11 +25,11 @@ public class Pessoa {
 	}
 
 	public String getName() {
-		return name;
+		return nome;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.nome = name;
 	}
 
 	
