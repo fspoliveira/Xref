@@ -19,24 +19,24 @@ public class Xref {
 
 			try {
 
-				@SuppressWarnings("unused")
-				T klassTo = klazzTo.newInstance();
+				
+				T klassToObject = klazzTo.newInstance();
 
 				Field fieldlist[] = klazzFrom.getDeclaredFields();
 
 				for (int j = 0; j < fieldlist.length; j++) {
 					Field fld = fieldlist[j];
 
-					System.out.println("atribute name  = " + fld.getName());					
-
-					Method method = klazzFrom.getMethod(toPojoGetStyle(fld
-							.getName()));
-
-					Object o = method.invoke(listFom.get(i));
-
-					System.out.println(o.toString());
-
+					Method methodGet = klazzFrom.getMethod(toPojoGetStyle(fld
+							.getName()));	
+					
+					Field t = klazzTo.getDeclaredField(fld
+							.getName());
+					t.setAccessible(true);
+					t.set(klassToObject, methodGet.invoke(listFom.get(i)));
 				}
+				
+				listReturn.add(klassToObject);
 
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block

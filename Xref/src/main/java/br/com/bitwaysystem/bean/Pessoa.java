@@ -5,30 +5,33 @@ public class Pessoa {
 	private int age;
 	private String name;
 
+	
+	public Pessoa(int age, String name) {
+		super();
+		this.age = age;
+		this.name = name;
+	}
+
 	public Pessoa() {
 		super();
 	}
 
-	public Pessoa(int idade, String nome) {
-		super();
-		this.age = idade;
-		this.name = nome;
-	}
-
-	public int getIdade() {
+	public int getAge() {
 		return age;
 	}
 
-	public void setIdade(int idade) {
-		this.age = idade;
+	public void setAge(int age) {
+		this.age = age;
 	}
 
-	public String getNome() {
+	public String getName() {
 		return name;
 	}
 
-	public void setNome(String nome) {
-		this.name = nome;
+	public void setName(String name) {
+		this.name = name;
 	}
+
+	
 
 }

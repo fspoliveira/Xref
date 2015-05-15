@@ -18,12 +18,14 @@ public class Main {
 		
 		List<People> peoples = new ArrayList<People>();
 		peoples.add(p1);
-		peoples.add(p2);
+		peoples.add(p2);		
 		
-		List<Pessoa>  pessoas= Xref.listTo(Pessoa.class, People.class, peoples);
+		List<Pessoa> pessoas=  (ArrayList<Pessoa>) Xref.listTo(Pessoa.class, People.class, peoples);
 		
-		for(int i=0; i<pessoas.size();i++){
-			System.out.println(pessoas.get(i));
-		}		
+		for(Pessoa pe: pessoas){
+			
+			System.out.println(pe.getAge());
+			System.out.println(pe.getName());
+		}
 	}
 }
