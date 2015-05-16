@@ -33,13 +33,12 @@ public class Xref {
 		for (Field field : fieldListTo) {
 			fieldsNameTo.put(field.getName(), field.getType());
 		}
-
 		
 		for (Map.Entry<String,  Class<?>> entry : fieldsNameFrom.entrySet())
 		{
 		    System.out.println(entry.getKey() + "/" + entry.getValue());
 		    
-		   if(fieldsNameTo.containsKey(entry.getKey())){			   
+		   if(fieldsNameTo.containsKey(entry.getKey())){  
 			   xRef.put(entry.getKey(), entry.getKey());
 		   }
 		    
@@ -50,8 +49,7 @@ public class Xref {
 			try {
 
 				T klassToObject = klazzTo.newInstance();
-
-				//for (Field field : fieldListFrom) {
+				
 				for (Map.Entry<String, String> entry : xRef.entrySet()){
 
 					Method methodGet = klazzFrom.getMethod(toPojoGetStyle(entry.getKey()));
@@ -59,7 +57,6 @@ public class Xref {
 					Field t = klazzTo.getDeclaredField(entry.getValue());
 					t.setAccessible(true);
 					t.set(klassToObject, methodGet.invoke(listFom.get(i)));
-
 				}
 
 				listReturn.add(klassToObject);

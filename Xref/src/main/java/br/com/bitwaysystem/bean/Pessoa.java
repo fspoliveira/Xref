@@ -1,19 +1,30 @@
 package br.com.bitwaysystem.bean;
 
+
+import java.util.List;
+
 public class Pessoa {
 
 	private int age;
-	private String nome;
+	private String name;
+	List<Phone> phones;
 
-	
-	public Pessoa(int age, String name) {
-		super();
-		this.age = age;
-		this.nome = name;
+	public List<Phone> getPhones() {
+		return phones;
+	}
+
+	public void setPhones(List<Phone> phones) {
+		this.phones = phones;
 	}
 
 	public Pessoa() {
 		super();
+	}
+
+	public Pessoa(int age, String name) {
+		super();
+		this.age = age;
+		this.name = name;
 	}
 
 	public int getAge() {
@@ -25,13 +36,11 @@ public class Pessoa {
 	}
 
 	public String getName() {
-		return nome;
+		return name;
 	}
 
 	public void setName(String name) {
-		this.nome = name;
+		this.name = name;
 	}
-
-	
 
 }

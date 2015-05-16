@@ -1,6 +1,21 @@
 package br.com.bitwaysystem.bean;
 
+
+import java.util.List;
+
 public class People {
+
+	private int age;
+	private String name;
+	List<Phone> phones;
+
+	public List<Phone> getPhones() {
+		return phones;
+	}
+
+	public void setPhones(List<Phone> phones) {
+		this.phones = phones;
+	}
 
 	public People() {
 		super();
@@ -11,9 +26,6 @@ public class People {
 		this.age = age;
 		this.name = name;
 	}
-
-	private int age;
-	private String name;
 
 	public int getAge() {
 		return age;
