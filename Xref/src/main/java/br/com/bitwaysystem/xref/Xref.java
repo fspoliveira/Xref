@@ -14,10 +14,7 @@ import br.com.bitwaysystem.bean.TrXrefItem;
 public class Xref {
 
 	public static <T, F> List<T> listToList(Class<F> klazzFrom,
-			Class<T> klazzTo, List<F> listFom) throws NoSuchFieldException,
-			SecurityException, NoSuchMethodException, IllegalArgumentException,
-			InvocationTargetException, InstantiationException,
-			IllegalAccessException {
+			Class<T> klazzTo, List<F> listFom) {
 
 		List<T> listReturn = new ArrayList<T>();
 
@@ -51,7 +48,16 @@ public class Xref {
 				xRef.put(entry.getKey(), entry.getKey());
 			} else {
 
-				F xrefData = (F) klazzFrom.newInstance();
+				F xrefData = null;
+				try {
+					xrefData = (F) klazzFrom.newInstance();
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 				Map<String, String> xrefAtributtes = ((TrXrefItem) xrefData)
 						.getXRefAtribuutes();
@@ -81,7 +87,18 @@ public class Xref {
 					// Set attribute value to Targe Class
 					Field t = klazzTo.getDeclaredField(entry.getValue());
 					t.setAccessible(true);
-					t.set(klassToObject, methodGet.invoke(listFom.get(i)));
+					try {
+						t.set(klassToObject, methodGet.invoke(listFom.get(i)));
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 
 				// Return list with New
@@ -90,9 +107,18 @@ public class Xref {
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (IllegalAccessException e) {
+			} catch (NoSuchMethodException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e1.printStackTrace();
+			} catch (SecurityException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (NoSuchFieldException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IllegalAccessException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 
