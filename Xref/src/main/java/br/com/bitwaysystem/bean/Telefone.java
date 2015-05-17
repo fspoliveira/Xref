@@ -1,11 +1,9 @@
 package br.com.bitwaysystem.bean;
 
-public class Phone {
+public class Telefone extends Phone {
 	
 	private String type;
 	private int number;
-	
-	
 	public String getType() {
 		return type;
 	}
@@ -17,5 +15,10 @@ public class Phone {
 	}
 	public void setNumber(int number) {
 		this.number = number;
-	}	
+	}
+	
+	
+	
+	
+
 }

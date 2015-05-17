@@ -9,56 +9,82 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.bitwaysystem.bean.TrXrefItem;
+
 public class Xref {
 
 	public static <T, F> List<T> listToList(Class<F> klazzFrom,
 			Class<T> klazzTo, List<F> listFom) throws NoSuchFieldException,
 			SecurityException, NoSuchMethodException, IllegalArgumentException,
-			InvocationTargetException {
+			InvocationTargetException, InstantiationException,
+			IllegalAccessException {
 
 		List<T> listReturn = new ArrayList<T>();
 
-		List<Field> fieldListFrom = new ArrayList<Field>(Arrays.asList(klazzFrom.getDeclaredFields()));
+		List<Field> fieldListFrom = new ArrayList<Field>(
+				Arrays.asList(klazzFrom.getDeclaredFields()));
 		Map<String, Class<?>> fieldsNameFrom = new HashMap<String, Class<?>>();
 
-		List<Field> fieldListTo = new ArrayList<Field>(Arrays.asList(klazzTo.getDeclaredFields()));
+		List<Field> fieldListTo = new ArrayList<Field>(Arrays.asList(klazzTo
+				.getDeclaredFields()));
 		Map<String, Class<?>> fieldsNameTo = new HashMap<String, Class<?>>();
 
+		// Xref betwenn Class from and Class To
 		Map<String, String> xRef = new HashMap<String, String>();
-		
+
+		// Get field name and field type from "Class From"
 		for (Field field : fieldListFrom) {
 			fieldsNameFrom.put(field.getName(), field.getType());
 		}
-		
+
+		// Get field name and field type from "Class To"
 		for (Field field : fieldListTo) {
 			fieldsNameTo.put(field.getName(), field.getType());
 		}
-		
-		for (Map.Entry<String,  Class<?>> entry : fieldsNameFrom.entrySet())
-		{
-		    System.out.println(entry.getKey() + "/" + entry.getValue());
-		    
-		   if(fieldsNameTo.containsKey(entry.getKey())){  
-			   xRef.put(entry.getKey(), entry.getKey());
-		   }
-		    
+
+		// Checks each attribute the origin class to exist on the target class
+		for (Map.Entry<String, Class<?>> entry : fieldsNameFrom.entrySet()) {
+			System.out.println(entry.getKey() + "/" + entry.getValue());
+
+			// If the name attribute are same
+			if (fieldsNameTo.containsKey(entry.getKey())) {
+				xRef.put(entry.getKey(), entry.getKey());
+			} else {
+
+				F xrefData = (F) klazzFrom.newInstance();
+
+				Map<String, String> xrefAtributtes = ((TrXrefItem) xrefData)
+						.getXRefAtribuutes();
+
+				// Find in xe Xref the atibute exists in target class
+				if (fieldsNameTo
+						.containsKey(xrefAtributtes.get(entry.getKey()))) {
+					xRef.put(entry.getKey(), xrefAtributtes.get(entry.getKey()));
+				}
+			}
+
 		}
 
-		for (int i = 0; i < listFom.size(); i++) {		
+		// For each item from ArrayList
+		for (int i = 0; i < listFom.size(); i++) {
 
 			try {
 
 				T klassToObject = klazzTo.newInstance();
-				
-				for (Map.Entry<String, String> entry : xRef.entrySet()){
 
-					Method methodGet = klazzFrom.getMethod(toPojoGetStyle(entry.getKey()));
+				for (Map.Entry<String, String> entry : xRef.entrySet()) {
 
+					// Get attribute from Original Class
+					Method methodGet = klazzFrom.getMethod(toPojoGetStyle(entry
+							.getKey()));
+
+					// Set attribute value to Targe Class
 					Field t = klazzTo.getDeclaredField(entry.getValue());
 					t.setAccessible(true);
 					t.set(klassToObject, methodGet.invoke(listFom.get(i)));
 				}
 
+				// Return list with New
 				listReturn.add(klassToObject);
 
 			} catch (InstantiationException e) {
