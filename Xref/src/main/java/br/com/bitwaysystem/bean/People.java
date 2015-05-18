@@ -8,6 +8,15 @@ public class People implements TrXrefItem {
 
 	private int age;
 	private String name;
+	private List<Phone> phones;
+
+	public List<Phone> getPhones() {
+		return phones;
+	}
+
+	public void setPhones(List<Phone> phones) {
+		this.phones = phones;
+	}
 
 	public People() {
 		super();
@@ -42,9 +51,9 @@ public class People implements TrXrefItem {
 
 		xRefAtribuutes.put("age", "idade");
 		xRefAtribuutes.put("name", "nome");
+		xRefAtribuutes.put("phones", "telefones"); //Array List
 
 		return xRefAtribuutes;
 
 	}
-
 }

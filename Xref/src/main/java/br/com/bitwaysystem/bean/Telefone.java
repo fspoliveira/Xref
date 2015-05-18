@@ -1,23 +1,20 @@
 package br.com.bitwaysystem.bean;
 
-public class Telefone extends Phone {
+public class Telefone {
 
-	private String type;
-	private int number;
-
-	public String getType() {
-		return type;
+	private String tipo;
+	private int numero;
+	
+	public String getTipo() {
+		return tipo;
 	}
-
-	public void setType(String type) {
-		this.type = type;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
-
-	public int getNumber() {
-		return number;
+	public int getNumero() {
+		return numero;
 	}
-
-	public void setNumber(int number) {
-		this.number = number;
+	public void setNumero(int numero) {
+		this.numero = numero;
 	}
 }
