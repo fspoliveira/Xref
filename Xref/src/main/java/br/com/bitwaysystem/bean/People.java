@@ -56,7 +56,7 @@ public class People implements TrXrefAttributes {
 	}
 
 	// Xref to Class Pessoa
-	public Map<String, String> getXRefAtributes() {
+	public Map<String, String> getXRefAttributes() {
 
 		Map<String, String> xRefAtribuutes = new HashMap<String, String>();
 

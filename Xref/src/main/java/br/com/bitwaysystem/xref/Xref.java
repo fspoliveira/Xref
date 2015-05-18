@@ -13,8 +13,6 @@ import java.util.Map;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
-import br.com.bitwaysystem.bean.Phone;
-import br.com.bitwaysystem.bean.Telefone;
 import br.com.bitwaysystem.bean.TrXrefAttributes;
 import br.com.bitwaysystem.bean.TrXrefClass;
 
@@ -22,7 +20,7 @@ public class Xref {
 
 	private static Logger logger = LoggerFactory.getLogger(Xref.class);
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static <T, F> List<T> listToList(Class<F> klazzFrom,
 			Class<T> klazzTo, List<F> listFom) {
 
@@ -77,7 +75,7 @@ public class Xref {
 
 					// Get attribues Xref
 					Map<String, String> xrefAtributtes = ((TrXrefAttributes) xrefData)
-							.getXRefAtributes();
+							.getXRefAttributes();
 
 					// Find in Xref the attribute exists in "To Class"
 					if (fieldsNameTo.containsKey(xrefAtributtes
@@ -121,16 +119,7 @@ public class Xref {
 					if ("java.util.List".equals(methodGet.getReturnType()
 							.getName())) {
 
-						// if (entry.getKey().equals("phones")) {
-						System.out.println("Chegou no Array");
-
-						System.out.println(methodGet.invoke(listFom.get(i)));
-
-						if (methodGet.invoke(listFom.get(i))!= null) {
-							
-							
-							System.out.println(((ArrayList) methodGet
-									.invoke(listFom.get(i))).get(0).getClass());
+						if (methodGet.invoke(listFom.get(i)) != null) {
 
 							Class clazz = ((ArrayList) methodGet.invoke(listFom
 									.get(i))).get(0).getClass();
@@ -148,7 +137,7 @@ public class Xref {
 								toClass = teste.get(fromClass);
 							}
 
-							@SuppressWarnings("rawtypes")
+							//recursive call to Array List
 							List toList = (ArrayList) Xref.listToList(
 									(Class) fromClass, (Class) toClass,
 									(List<Class>) methodGet.invoke(listFom

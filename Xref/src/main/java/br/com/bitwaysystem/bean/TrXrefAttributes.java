@@ -4,6 +4,6 @@ import java.util.Map;
 
 public interface TrXrefAttributes {
 
-	public abstract Map<String, String> getXRefAtributes();
+	public abstract Map<String, String> getXRefAttributes();
 
 }

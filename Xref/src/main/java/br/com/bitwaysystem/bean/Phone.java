@@ -24,7 +24,7 @@ public class Phone  implements TrXrefAttributes, TrXrefClass{
 		this.number = number;
 	}
 
-	public Map<String, String> getXRefAtributes() {
+	public Map<String, String> getXRefAttributes() {
 		
 		Map<String, String> xRefAtribuutes = new HashMap<String, String>();
 

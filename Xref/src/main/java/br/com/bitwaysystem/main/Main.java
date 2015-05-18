@@ -66,6 +66,8 @@ public class Main {
 		phones.add(phoneCom);
 
 		p2.setPhones(phones);
+		
+		p2.setAddress(address);
 
 		peoples.add(p2);
 
