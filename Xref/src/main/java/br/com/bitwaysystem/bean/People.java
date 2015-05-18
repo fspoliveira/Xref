@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class People implements TrXrefItem {
+public class People implements TrXrefAttributes {
 
 	private int age;
 	private String name;
@@ -45,7 +45,7 @@ public class People implements TrXrefItem {
 	}
 
 	// Xref to Class Pessoa
-	public Map<String, String> getXRefAtribuutes() {
+	public Map<String, String> getXRefAtributes() {
 
 		Map<String, String> xRefAtribuutes = new HashMap<String, String>();
 
@@ -56,4 +56,14 @@ public class People implements TrXrefItem {
 		return xRefAtribuutes;
 
 	}
+	
+	/*public Map<Class<?>, Class<?>> getXRefClasses() {
+
+		Map<Class<?>, Class<?>> xRefClasses = new HashMap<Class<?>, Class<?>>();
+
+		xRefClasses.put(Phone.class, Telefone.class);
+	
+		return xRefClasses;
+
+	}	*/
 }

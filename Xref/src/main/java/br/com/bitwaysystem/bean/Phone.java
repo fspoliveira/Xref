@@ -3,7 +3,7 @@ package br.com.bitwaysystem.bean;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Phone  implements TrXrefItem{
+public class Phone  implements TrXrefAttributes, TrXrefClass{
 
 	private String type;
 	private int number;
@@ -24,7 +24,7 @@ public class Phone  implements TrXrefItem{
 		this.number = number;
 	}
 
-	public Map<String, String> getXRefAtribuutes() {
+	public Map<String, String> getXRefAtributes() {
 		
 		Map<String, String> xRefAtribuutes = new HashMap<String, String>();
 
@@ -34,4 +34,14 @@ public class Phone  implements TrXrefItem{
 
 		return xRefAtribuutes;
 	}
+	
+	public Map<Class<?>, Class<?>> getXRefClasses() {
+
+		Map<Class<?>, Class<?>> xRefClasses = new HashMap<Class<?>, Class<?>>();
+
+		xRefClasses.put(Phone.class, Telefone.class);
+	
+		return xRefClasses;
+
+	}	
 }

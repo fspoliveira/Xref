@@ -6,22 +6,23 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
-import br.com.bitwaysystem.bean.People;
-import br.com.bitwaysystem.bean.Pessoa;
 import br.com.bitwaysystem.bean.Phone;
 import br.com.bitwaysystem.bean.Telefone;
-import br.com.bitwaysystem.bean.TrXrefItem;
+import br.com.bitwaysystem.bean.TrXrefAttributes;
+import br.com.bitwaysystem.bean.TrXrefClass;
 
 public class Xref {
 
 	private static Logger logger = LoggerFactory.getLogger(Xref.class);
 
+	@SuppressWarnings("unchecked")
 	public static <T, F> List<T> listToList(Class<F> klazzFrom,
 			Class<T> klazzTo, List<F> listFom) {
 
@@ -42,24 +43,26 @@ public class Xref {
 		Map<String, String> xRef = new HashMap<String, String>();
 
 		// Get field name and field type from "Class From"
-		logger.info("Fiedls Class From");
+		// logger.info("Fiedls Class From");
 		for (Field field : fieldListFrom) {
 			fieldsNameFrom.put(field.getName(), field.getType());
-			System.out.println(field.getName());
+			// System.out.println(field.getName());
 		}
 
 		// Get field name and field type from "Class To"
-		logger.info("Fiedls Class To");
+		// logger.info("Fiedls Class To");
 		for (Field field : fieldListTo) {
 			fieldsNameTo.put(field.getName(), field.getType());
-			System.out.println(field.getName());
+			// System.out.println(field.getName());
 		}
 
 		// Checks each attribute from "Class From" in Class To".
 		for (Map.Entry<String, Class<?>> fieldNameFrom : fieldsNameFrom
 				.entrySet()) {
-			System.out.println(fieldNameFrom.getKey() + "/"
-					+ fieldNameFrom.getValue());
+			/*
+			 * System.out.println(fieldNameFrom.getKey() + "/" +
+			 * fieldNameFrom.getValue());
+			 */
 
 			// If the name attribute are same between Class from and Class To
 			if (fieldsNameTo.containsKey(fieldNameFrom.getKey())) {
@@ -73,8 +76,8 @@ public class Xref {
 					xrefData = (F) klazzFrom.newInstance();
 
 					// Get attribues Xref
-					Map<String, String> xrefAtributtes = ((TrXrefItem) xrefData)
-							.getXRefAtribuutes();
+					Map<String, String> xrefAtributtes = ((TrXrefAttributes) xrefData)
+							.getXRefAtributes();
 
 					// Find in Xref the attribute exists in "To Class"
 					if (fieldsNameTo.containsKey(xrefAtributtes
@@ -115,19 +118,65 @@ public class Xref {
 					// call recursive function
 					// to get new list
 
-					if (entry.getKey().equals("phones")) {
+					if ("java.util.List".equals(methodGet.getReturnType()
+							.getName())) {
+
+						// if (entry.getKey().equals("phones")) {
 						System.out.println("Chegou no Array");
 
 						System.out.println(methodGet.invoke(listFom.get(i)));
 
-						@SuppressWarnings("unchecked")
-						List<Phone> teste = (List<Phone>) methodGet
-								.invoke(listFom.get(i));
+						/*
+						 * List<Phone> teste = (List<Phone>) methodGet
+						 * .invoke(listFom.get(i));
+						 */
+						/*
+						 * List<Telefone> telefones = (ArrayList<Telefone>) Xref
+						 * .listToList(Phone.class, Telefone.class,
+						 * (List<Phone>) methodGet .invoke(listFom.get(i)));
+						 */
 
-						List<Telefone> telefones = (ArrayList<Telefone>) Xref
-								.listToList(Phone.class, Telefone.class, teste);
+						System.out.println(((ArrayList) methodGet
+								.invoke(listFom.get(i))).get(0).getClass());
 
-						t.set(klassToObject, telefones);
+						Class clazz = ((ArrayList) methodGet.invoke(listFom
+								.get(i))).get(0).getClass();
+
+						/*
+						 * List<Telefone> telefones = (ArrayList<Telefone>) Xref
+						 * .listToList(Phone.class, Telefone.class,
+						 * (List<Phone>) methodGet .invoke(listFom.get(i)));
+						 */
+
+						/*
+						 * List<Telefone> telefones = (ArrayList<Telefone>) Xref
+						 * .listToList(clazz, Telefone.class, (List<Class>)
+						 * methodGet .invoke(listFom.get(i)));
+						 */
+						
+						Object xrefClasses = clazz.newInstance();
+						
+						
+						@SuppressWarnings("unused")
+						Map<Class<?>, Class<?>> teste= ((TrXrefClass) xrefClasses)
+								.getXRefClasses();
+						
+						Iterator it = teste.keySet().iterator();
+						Class<?> fromClass = null;
+						Class<?> toClass = null;
+						if(it.hasNext()) {
+							fromClass = (Class<?>) it.next();
+							toClass = teste.get(fromClass);
+						}
+						
+
+						@SuppressWarnings("rawtypes")
+						List toList = (ArrayList) Xref
+								.listToList((Class)fromClass, (Class) toClass,
+										(List<Class>) methodGet.invoke(listFom
+												.get(i)));
+
+						t.set(klassToObject, toList);
 
 					} else {
 						t.set(klassToObject, methodGet.invoke(listFom.get(i)));
