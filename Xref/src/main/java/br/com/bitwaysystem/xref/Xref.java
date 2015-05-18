@@ -126,57 +126,36 @@ public class Xref {
 
 						System.out.println(methodGet.invoke(listFom.get(i)));
 
-						/*
-						 * List<Phone> teste = (List<Phone>) methodGet
-						 * .invoke(listFom.get(i));
-						 */
-						/*
-						 * List<Telefone> telefones = (ArrayList<Telefone>) Xref
-						 * .listToList(Phone.class, Telefone.class,
-						 * (List<Phone>) methodGet .invoke(listFom.get(i)));
-						 */
+						if (methodGet.invoke(listFom.get(i))!= null) {
+							
+							
+							System.out.println(((ArrayList) methodGet
+									.invoke(listFom.get(i))).get(0).getClass());
 
-						System.out.println(((ArrayList) methodGet
-								.invoke(listFom.get(i))).get(0).getClass());
+							Class clazz = ((ArrayList) methodGet.invoke(listFom
+									.get(i))).get(0).getClass();
 
-						Class clazz = ((ArrayList) methodGet.invoke(listFom
-								.get(i))).get(0).getClass();
+							Object xrefClasses = clazz.newInstance();
 
-						/*
-						 * List<Telefone> telefones = (ArrayList<Telefone>) Xref
-						 * .listToList(Phone.class, Telefone.class,
-						 * (List<Phone>) methodGet .invoke(listFom.get(i)));
-						 */
+							Map<Class<?>, Class<?>> teste = ((TrXrefClass) xrefClasses)
+									.getXRefClasses();
 
-						/*
-						 * List<Telefone> telefones = (ArrayList<Telefone>) Xref
-						 * .listToList(clazz, Telefone.class, (List<Class>)
-						 * methodGet .invoke(listFom.get(i)));
-						 */
-						
-						Object xrefClasses = clazz.newInstance();
-						
-						
-						@SuppressWarnings("unused")
-						Map<Class<?>, Class<?>> teste= ((TrXrefClass) xrefClasses)
-								.getXRefClasses();
-						
-						Iterator it = teste.keySet().iterator();
-						Class<?> fromClass = null;
-						Class<?> toClass = null;
-						if(it.hasNext()) {
-							fromClass = (Class<?>) it.next();
-							toClass = teste.get(fromClass);
+							Iterator it = teste.keySet().iterator();
+							Class<?> fromClass = null;
+							Class<?> toClass = null;
+							if (it.hasNext()) {
+								fromClass = (Class<?>) it.next();
+								toClass = teste.get(fromClass);
+							}
+
+							@SuppressWarnings("rawtypes")
+							List toList = (ArrayList) Xref.listToList(
+									(Class) fromClass, (Class) toClass,
+									(List<Class>) methodGet.invoke(listFom
+											.get(i)));
+
+							t.set(klassToObject, toList);
 						}
-						
-
-						@SuppressWarnings("rawtypes")
-						List toList = (ArrayList) Xref
-								.listToList((Class)fromClass, (Class) toClass,
-										(List<Class>) methodGet.invoke(listFom
-												.get(i)));
-
-						t.set(klassToObject, toList);
 
 					} else {
 						t.set(klassToObject, methodGet.invoke(listFom.get(i)));

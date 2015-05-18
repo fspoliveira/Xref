@@ -9,6 +9,17 @@ public class People implements TrXrefAttributes {
 	private int age;
 	private String name;
 	private List<Phone> phones;
+	private List<Address> address;
+	
+	public List<Address> getAddress() {
+		return address;
+	}
+
+	public void setAddress(List<Address> address) {
+		this.address = address;
+	}
+
+	
 
 	public List<Phone> getPhones() {
 		return phones;
@@ -52,6 +63,7 @@ public class People implements TrXrefAttributes {
 		xRefAtribuutes.put("age", "idade");
 		xRefAtribuutes.put("name", "nome");
 		xRefAtribuutes.put("phones", "telefones"); //Array List
+		xRefAtribuutes.put("address", "enderecos"); //Array List
 
 		return xRefAtribuutes;
 

@@ -7,6 +7,15 @@ public class Pessoa {
 	private int idade;
 	private String nome;
 	private List<Telefone> telefones;
+	private List<Endereco> enderecos;
+
+	public List<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
 
 	public int getIdade() {
 		return idade;
